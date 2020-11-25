@@ -24,8 +24,10 @@ class Weapon:
 		self.min_level - min_level
     		
 	UNARMED_POWER = 20
-
-
+	@classmethod
+	def make_unarmed(cls):
+    	return(cls.UNARMED_POWER, "unarmed")
+	
 class Character:
 	"""
 	Un personnage dans le jeu
@@ -36,7 +38,7 @@ class Character:
 	:param defense: Le niveau de défense du personnage
 	:param level: Le niveau d'expérience du personnage
 	"""
-	def __init__(self, name: str, max_hp: float, attack: int, defense: int, level: int, weapon: "Weapon", hp: float):
+	def __init__(self, name, max_hp, attack, defense, level, weapon: "Weapon", hp):
     	self.name = name
 		self.max_hp = max_hp
 		self.attack = attack
