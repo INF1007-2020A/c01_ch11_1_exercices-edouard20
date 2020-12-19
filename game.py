@@ -18,16 +18,16 @@ class Weapon:
 	:param power: Le niveau d'attaque
 	:param min_level: Le niveau minimal pour l'utiliser
 	"""
-	def __init__(self, name: str, power: float, min_level: int ):
+	def __init__(self, name, power, min_level):
 		self.name = name
 		self.power = power
-		self.min_level - min_level
-    		
+		self.min_level = min_level
+		
 	UNARMED_POWER = 20
 	@classmethod
 	def make_unarmed(cls):
-    	return(cls.UNARMED_POWER, "unarmed")
-	
+    	#return(cls.UNARMED_POWER, "unarmed")
+		return cls("Unarmed", cls.UNARMED_POWER, 1)
 class Character:
 	"""
 	Un personnage dans le jeu
@@ -38,14 +38,34 @@ class Character:
 	:param defense: Le niveau de défense du personnage
 	:param level: Le niveau d'expérience du personnage
 	"""
-	def __init__(self, name, max_hp, attack, defense, level, weapon: "Weapon", hp):
+	def __init__(self, name, max_hp, attack, defense, level, hp):
     	self.name = name
 		self.max_hp = max_hp
 		self.attack = attack
 		self.defense = defense
 		self.level = level
-		self.weapon = weapon
+		self.weapon = None
 		self.hp = max_hp
+	
+	def get_weapon(self):
+    	return self.__weapon
+	
+	@setter
+	def set_weapon(self, weapon: "Weapon"):
+    	if weapon is None:
+    		weapon = Weapon.make_unarmed()
+		elif weapon.min_level > self.level:
+    		raise ValueError("Weapon level too high for user")
+
+	def get_hp(self):
+    	return self.__hp
+	
+	def set_hp(self, hp):
+    	#if hp < 0:
+    	#	self.hp = 0
+		#elif hp > 100:
+    	#	self.hp = 100
+		self.__hp = utils.clamp(hp,0,self.max_hp)
 
 	def computedamage(attaquant,defenseur: Character):
 		random = random.randrange(0.85,1)
